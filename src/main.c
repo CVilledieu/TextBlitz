@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <winHandlers.h>
 #define IDC_MAIN_EDIT 101
 
 const char g_szClassName[] = "myWindowClass";
@@ -8,30 +9,11 @@ void setWNDCLASSEX(WNDCLASSEX *w, HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
 		case WM_CREATE:
-		{
-			HFONT hfDefault;
-            HWND hEdit;
-            
-            hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,"EDIT","", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | 
-            ES_AUTOVSCROLL | ES_AUTOHSCROLL, 0, 0, 100, 100, hwnd, (HMENU)IDC_MAIN_EDIT, GetModuleHandle(NULL), NULL);
-            if(hEdit == NULL){
-                MessageBox(hwnd, "Couldnt create edit box.","Err", MB_OK|MB_ICONERROR);
-            }
-            hfDefault = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-            SendMessage(hEdit, WM_SETFONT, (WPARAM)hfDefault, MAKELPARAM(FALSE,0));
-		}
+            createHandler(hwnd, wParam);
 			break;
         case WM_SIZE:
-        {
-            HWND hEdit;
-            RECT rcClient;
-
-            GetClientRect(hwnd, &rcClient);
-
-            hEdit = GetDlgItem(hwnd, IDC_MAIN_EDIT);
-            SetWindowPos(hEdit, NULL, 0,0, rcClient.right, rcClient.bottom, SWP_NOZORDER);
-        }
-        break;
+            sizeHandler(hwnd);
+            break;
         case WM_CLOSE:
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -63,9 +45,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// window position
 		// x, y
-        0, 0, 
+        CW_USEDEFAULT, CW_USEDEFAULT, 
 		//window size
-		1920, 1080,
+		CW_USEDEFAULT, CW_USEDEFAULT,
 
         NULL, NULL, hInstance, NULL);
 

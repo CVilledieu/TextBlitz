@@ -9,7 +9,10 @@ sDir = ./src
 inc = -Isrc/include
 lib = -mwin32 -mwindows
 
-OBJS = $(wildcard $(sDir)/*.c)
+
+cFiles = $(wildcard $(sDir)/*.c)
+
+OBJS = $(cFiles) 
 appName = TextBlitz
 
 all: build cleanObjs
@@ -19,6 +22,7 @@ build: $(OBJS)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS)  $< -o $@
+
 
 cleanObjs: 
 	rm -rf $(sDir)/*.o
