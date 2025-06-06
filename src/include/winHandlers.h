@@ -4,4 +4,5 @@
 void createHandler(HWND hwnd, WPARAM wParam);
 void sizeHandler(HWND hwnd);
 
+
 #endif

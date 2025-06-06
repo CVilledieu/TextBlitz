@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.rh": "c",
-        "windows.h": "c"
+        "windows.h": "c",
+        "cstdlib": "c"
     }
 }

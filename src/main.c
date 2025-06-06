@@ -1,19 +1,22 @@
 #include <windows.h>
 #include <winHandlers.h>
-#define IDC_MAIN_EDIT 101
+#include <editorwc.h>
 
 const char g_szClassName[] = "myWindowClass";
 
-void setWNDCLASSEX(WNDCLASSEX *w, HINSTANCE hInstance);
+void setWNDCLASSEX(WNDCLASSEX *wc, HINSTANCE hInstance);
+LRESULT CALLBACK editWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
+
 		case WM_CREATE:
             createHandler(hwnd, wParam);
 			break;
         case WM_SIZE:
             sizeHandler(hwnd);
             break;
+        
         case WM_CLOSE:
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -26,17 +29,25 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
+    //main class
     WNDCLASSEX wc;
+    setWNDCLASSEX(&wc,hInstance);
+    WNDCLASSEX ewc;
+
+    setEditCLASSEX(&ewc,hInstance);
+    
     HWND hwnd;
     MSG Msg;
-    setWNDCLASSEX(&wc,hInstance);
-	
+    
 
 	if (!RegisterClassEx(&wc)) {
         MessageBox(NULL, "Window Registration Failed!", "Error", MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
-
+    if (!RegisterClassEx(&ewc)) {
+        MessageBox(NULL, "Window Registration Failed!", "Error", MB_ICONEXCLAMATION | MB_OK);
+        return 0;
+    }
     hwnd = CreateWindowEx(
         0,
         g_szClassName,
@@ -76,8 +87,21 @@ void setWNDCLASSEX(WNDCLASSEX *wc, HINSTANCE hInstance){
     wc->hInstance     = hInstance;
     wc->hIcon         = LoadIcon(NULL, IDI_APPLICATION);
     wc->hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc->hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+    wc->hbrBackground = (HBRUSH)(CreateSolidBrush(0x005f5f5f));
     wc->lpszMenuName  = NULL;
     wc->lpszClassName = g_szClassName;
     wc->hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+}
+
+LRESULT CALLBACK editWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    switch(msg){
+        case WM_CLOSE:
+        case WM_DESTROY:
+            PostQuitMessage(0);
+			DestroyWindow(hwnd);
+        	break;
+        default:
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+    return 0;
 }
