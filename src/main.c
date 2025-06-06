@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <winHandlers.h>
-#include <editorwc.h>
 
 const char g_szClassName[] = "myWindowClass";
 
@@ -32,9 +31,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     //main class
     WNDCLASSEX wc;
     setWNDCLASSEX(&wc,hInstance);
-    WNDCLASSEX ewc;
-
-    setEditCLASSEX(&ewc,hInstance);
     
     HWND hwnd;
     MSG Msg;
@@ -44,10 +40,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         MessageBox(NULL, "Window Registration Failed!", "Error", MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
-    if (!RegisterClassEx(&ewc)) {
-        MessageBox(NULL, "Window Registration Failed!", "Error", MB_ICONEXCLAMATION | MB_OK);
-        return 0;
-    }
+
+    
     hwnd = CreateWindowEx(
         0,
         g_szClassName,
@@ -93,15 +87,3 @@ void setWNDCLASSEX(WNDCLASSEX *wc, HINSTANCE hInstance){
     wc->hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
 }
 
-LRESULT CALLBACK editWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
-    switch(msg){
-        case WM_CLOSE:
-        case WM_DESTROY:
-            PostQuitMessage(0);
-			DestroyWindow(hwnd);
-        	break;
-        default:
-            return DefWindowProc(hwnd, msg, wParam, lParam);
-    }
-    return 0;
-}
