@@ -23,6 +23,7 @@ all: $(App) clean
 	windres $(inc) $< -o $@
 
 $(App): $(OBJ)
+	mkdir -p bin
 	$(CC) $(CFLAGS) $(OBJ) -o bin/$@
 
 clean: 
