@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <winHandlers.h>
 #define IDC_MAIN_EDIT 101
 
 

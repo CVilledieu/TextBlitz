@@ -1,0 +1,11 @@
+#include "taskIcon.h"
+
+IDI_TASKICON ICON "taskIcon.ico"
+
+IDR_TASKBAR MENU
+{
+    POPUP "&File"
+    {
+        MENUITEM "E&xit", ID_FILE_EXIT
+    }
+}

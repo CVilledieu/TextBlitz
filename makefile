@@ -1,39 +1,29 @@
 .PHONY: cleanObjs build clean all
 
 CC = GCC
-CFLAGS = -Wall $(inc) $(lib)
-
-# directories
-outDir = ./bin
-sDir = ./src
-rcDir = ./resource
+CFLAGS = -Wall $(inc) -mwindows
 inc = -Isrc/include
-lib = -mwin32 -mwindows
 
-rcFiles = $(wildcard $(rcDir)/*.rc)
-cFiles = $(wildcard $(sDir)/*.c)
+SRC_C = $(wildcard src/*.c)
+SRC_RC = $(wildcard resource/*.rc)
 
-OBJS = $(cFiles)
-buildItems = $(wildcard $(OBJ)) 
-appName = TextBlitz
-
-all: build cleanObjs
-
-build: $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $(outDir)/$(appName)
+OBJ_C = $(SRC_C:.c=.o)
+OBJ_RC = $(SRC_RC:.rc=.o)
+OBJ = $(OBJ_C) $(OBJ_RC)
 
 
-resources: $(rcFiles)
-	windres $(CFLAGS) $^ 
+App = TextBlitz
+
+all: $(App) clean
 
 %.o: %.c
-	$(CC) -c $(CFLAGS)  $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o:%.rc 
+	windres $(inc) $< -o $@
 
-
-cleanObjs: 
-	rm -rf $(sDir)/*.o
+$(App): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o bin/$@
 
 clean: 
-	rm -rf $(outDir)/*
-	rm -rf $(sDir)/*.o
+	rm -rf resource/*.o src/*.o

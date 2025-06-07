@@ -1,3 +1,0 @@
-#include <myMenuRes.h>
-
-IDI_MYICON ICON "my_icon.ico"
