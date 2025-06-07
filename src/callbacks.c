@@ -11,7 +11,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
         case WM_SIZE:
             sizeHandler(hwnd);
             break;
+        //case WM_CTLCOLOREDIT:
+          //  colorEditHandler(wParam);
+            //return (LRESULT)CreateSolidBrush(0x00808080);
         
+        //ERASEBKGND is called when window needs to be repainted
+        //case WM_ERASEBKGND:
         case WM_CLOSE:
         case WM_DESTROY:
             PostQuitMessage(0);
