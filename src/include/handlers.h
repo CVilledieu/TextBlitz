@@ -6,7 +6,9 @@ void createHandler(HWND hwnd, WPARAM wParam);
 void sizeHandler(HWND hwnd);
 void colorEditHandler(WPARAM wParam);
 
-extern HBRUSH g_hbrBackground;
+void createLayout_main(HWND hwnd,WPARAM wParam);
+
+//extern HBRUSH g_hbrBackground;
 
 
 #endif

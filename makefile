@@ -5,11 +5,13 @@ CFLAGS = -Wall $(inc) -mwindows
 inc = -Isrc/include
 
 SRC_C = $(wildcard src/*.c)
+SRC_COMP = $(wildcard src/components/*.c)
 SRC_RC = $(wildcard resource/*.rc)
 
 OBJ_C = $(SRC_C:.c=.o)
+OBJ_COMP = $(SRC_COMP:.c=.o)
 OBJ_RC = $(SRC_RC:.rc=.o)
-OBJ = $(OBJ_C) $(OBJ_RC)
+OBJ = $(OBJ_C) $(SRC_COMP) $(OBJ_RC)
 
 
 App = TextBlitz

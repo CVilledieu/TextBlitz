@@ -1,4 +1,4 @@
-#include "taskIcon.h"
+#include "resource.h"
 
 IDI_TASKICON ICON "taskIcon.ico"
 
