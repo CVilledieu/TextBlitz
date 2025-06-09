@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <resource.h>
-#include <handlers.h>
 #include <components.h>
 
 char g_szAppName[16] = {"TextBlitz"};
@@ -37,7 +36,7 @@ int InitWindow_Main(HINSTANCE hInstance, int nCmdShow){
     wc.hInstance = hInstance;
     wc.lpfnWndProc = (WNDPROC)WndProc_Main;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)CreateSolidBrush(0x00636363);
+    wc.hbrBackground = (HBRUSH)CreateSolidBrush((COLORREF)g_iBkHexRef);
     wc.lpszMenuName = g_szAppName;
     wc.lpszClassName = g_szAppName;
     wc.hIconSm       = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TASKICON));
@@ -73,12 +72,9 @@ LRESULT CALLBACK WndProc_Main(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_CREATE:
             //Calls initial create functions for children of main window
-            createLayout_main(hwnd, wParam);
+            CreateTitle_window(hwnd);
             //createHandler(hwnd, wParam);
 			break;
-        case WM_SIZE:
-            sizeHandler(hwnd);
-            break;
         case WM_CLOSE:
         case WM_DESTROY:
             PostQuitMessage(0);

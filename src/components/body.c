@@ -2,17 +2,16 @@
 #include <components.h>
 
 
-static const char* s_szCLASSNAMEEX = "myTitleClass";
-
-static char *s_szData = "BudgetBlitz!";
-
+static const char* s_szCLASSNAMEEX = "myBodyClass";
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-static void paintWindow(HWND hwnd);
+//static void paintWindow(HWND hwnd);
 
-void CreateTitle_window(HWND hwnd){
+void CreateTitle_body(HWND hwnd){
     HINSTANCE hInstance = GetModuleHandle(NULL);
     WNDCLASSEX wc;
+    HBRUSH hBrush;
+    hBrush = CreateSolidBrush(g_iBkHexRef);
 
     wc.cbSize = sizeof(WNDCLASSEX);
     wc.style  = CS_HREDRAW | CS_VREDRAW;
@@ -21,7 +20,7 @@ void CreateTitle_window(HWND hwnd){
     wc.hInstance = hInstance;
     wc.lpfnWndProc = (WNDPROC)WndProc;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)CreateSolidBrush((COLORREF)g_iBkHexRef);
+    wc.hbrBackground = hBrush;
     wc.lpszMenuName = s_szCLASSNAMEEX;
     wc.lpszClassName = s_szCLASSNAMEEX;
     wc.hIcon = NULL;
@@ -33,20 +32,17 @@ void CreateTitle_window(HWND hwnd){
         return;
     }
 
+    DeleteObject(hBrush);
+
     RECT parentRec;
 
     GetClientRect(hwnd, &parentRec);
 
-    int parentW = parentRec.right - parentRec.left;
-    int parentH = parentRec.bottom - parentRec.top;
-    
-    float childH = (float)parentH / 8;
-    float childW = (float)parentW / 6;
 
-    HWND hTitle = CreateWindowEx(WS_EX_CLIENTEDGE, s_szCLASSNAMEEX, "",WS_BORDER|WS_CHILDWINDOW|WS_VISIBLE|ES_CENTER, 0, 0, (int)childW, (int)childH, hwnd,NULL, hInstance, NULL );
+    HWND hTitle = CreateWindowEx(0, s_szCLASSNAMEEX, "", WS_BORDER|WS_CHILDWINDOW|WS_VISIBLE, 0, 0, parentRec.right, parentRec.bottom, hwnd,NULL, hInstance, NULL );
 
     if (hTitle == NULL){
-        MessageBox(hwnd, "Failed to create Title window","Error!", MB_OK);
+        MessageBox(hwnd, "Failed to create Body window","Error!", MB_OK);
         SendMessage(hwnd, WM_CLOSE, 0, 0);
         return;
     }
@@ -55,9 +51,6 @@ void CreateTitle_window(HWND hwnd){
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
-        case WM_PAINT:
-            paintWindow(hwnd);
-            break;
         case WM_CLOSE:
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -71,7 +64,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 
 
-static void paintWindow(HWND hwnd){
+/* static void paintWindow(HWND hwnd){
     PAINTSTRUCT ps;
     HDC hdc;
     HFONT oldHf,newHf;
@@ -93,4 +86,4 @@ static void paintWindow(HWND hwnd){
 
     EndPaint(hwnd, &ps);
 
-}
+} */
