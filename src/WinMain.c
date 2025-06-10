@@ -1,6 +1,6 @@
-#include <windows.h>
 #include <resource.h>
 #include <components.h>
+#include "callbacks.h"
 
 char g_szAppName[16] = {"TextBlitz"};
 char g_szTitle[40] = {"May be an Editor"};
@@ -37,7 +37,7 @@ int InitWindow_Main(HINSTANCE hInstance, int nCmdShow){
     wc.lpfnWndProc = (WNDPROC)WndProc_Main;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)CreateSolidBrush((COLORREF)g_iBkHexRef);
-    wc.lpszMenuName = g_szAppName;
+    wc.lpszMenuName = NULL;
     wc.lpszClassName = g_szAppName;
     wc.hIconSm       = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TASKICON));
     if((wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TASKICON))) == NULL){
@@ -72,7 +72,7 @@ LRESULT CALLBACK WndProc_Main(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_CREATE:
             //Calls initial create functions for children of main window
-            CreateTitle_window(hwnd);
+            CreatePage(hwnd, "myWelcomePageClass", WelcomeWndProc);
             //createHandler(hwnd, wParam);
 			break;
         case WM_CLOSE:

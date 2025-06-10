@@ -22,7 +22,7 @@ void CreateTitle_window(HWND hwnd){
     wc.lpfnWndProc = (WNDPROC)WndProc;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)CreateSolidBrush((COLORREF)g_iBkHexRef);
-    wc.lpszMenuName = s_szCLASSNAMEEX;
+    wc.lpszMenuName = NULL;
     wc.lpszClassName = s_szCLASSNAMEEX;
     wc.hIcon = NULL;
     wc.hIconSm = NULL;
@@ -43,7 +43,7 @@ void CreateTitle_window(HWND hwnd){
     float childH = (float)parentH / 8;
     float childW = (float)parentW / 6;
 
-    HWND hTitle = CreateWindowEx(WS_EX_CLIENTEDGE, s_szCLASSNAMEEX, "",WS_BORDER|WS_CHILDWINDOW|WS_VISIBLE|ES_CENTER, 0, 0, (int)childW, (int)childH, hwnd,NULL, hInstance, NULL );
+    HWND hTitle = CreateWindowEx(0, s_szCLASSNAMEEX, "",WS_CHILDWINDOW|WS_VISIBLE, 0, 0, (int)childW, (int)childH, hwnd,NULL, hInstance, NULL );
 
     if (hTitle == NULL){
         MessageBox(hwnd, "Failed to create Title window","Error!", MB_OK);
