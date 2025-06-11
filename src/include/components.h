@@ -21,7 +21,7 @@
 #define g_szFont "Roboto"
 
 void CreatePage(HWND hwnd, char* PageName, WNDPROC wndproc);
-void CreateWelcomeMessageWnd(HWND hwnd);
+LRESULT CALLBACK Content_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Title window 
 void CreateTitle_window(HWND hwnd);

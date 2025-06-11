@@ -1,10 +1,11 @@
 #include "components.h"
 
 
-LRESULT CALLBACK WelcomeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-static char* s_szCLASSNAMEEX = "myWelcomeClassName";
+static char* s_szCLASSNAMEEX = "myContentClassName";
+void CreateWelcomeMessageWnd(HWND hwnd);
 
-void WelcomeWnd(HWND hwnd){
+
+void Content_Wnd(HWND hwnd){
     HINSTANCE hInstance = GetModuleHandle(NULL);
     WNDCLASSEX wc;
 
@@ -13,7 +14,7 @@ void WelcomeWnd(HWND hwnd){
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = hInstance;
-    wc.lpfnWndProc = (WNDPROC)WelcomeWndProc;
+    wc.lpfnWndProc = (WNDPROC)Content_Proc;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)CreateSolidBrush((COLORREF)g_iBkHexRef);
     wc.lpszMenuName = NULL;
@@ -31,10 +32,11 @@ void WelcomeWnd(HWND hwnd){
     return;
 }
 
-LRESULT CALLBACK WelcomeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK Content_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
         case WM_CREATE:
-            CreateWelcomeMessageWnd(hwnd);
+            //CreateWelcomeMessageWnd(hwnd);
+            CreateTitle_window(hwnd);
             break;
         /* case WM_PAINT:
             break; */
@@ -52,7 +54,7 @@ LRESULT CALLBACK WelcomeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 void CreateWelcomeMessageWnd(HWND hwnd){
     HWND welDlg;
-    welDlg = CreateWindowEx(0,"Task Dialog","Test", WS_CHILD|WS_VISIBLE, 0,0, 200, 200, hwnd, NULL, GetModuleHandle(NULL), NULL);
+    welDlg = CreateWindowEx(0,"Task Dialog","", WS_CHILD|WS_VISIBLE, 0,0, 100, 100, hwnd, 0, GetModuleHandle(NULL), NULL);
 
     if(welDlg == NULL){
         MessageBox(hwnd, "Couldnt create welcome dialog", "Error!", MB_OK);

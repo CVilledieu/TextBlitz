@@ -72,14 +72,13 @@ LRESULT CALLBACK WndProc_Main(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_CREATE:
             //Calls initial create functions for children of main window
-            CreatePage(hwnd, "myWelcomePageClass", WelcomeWndProc);
+            CreatePage(hwnd, "myContentClassName", Content_Proc);
             //createHandler(hwnd, wParam);
 			break;
         case WM_CLOSE:
+            DestroyWindow(hwnd);
         case WM_DESTROY:
             PostQuitMessage(0);
-			DestroyWindow(hwnd);
-        	break;
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam);
     }
